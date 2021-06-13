@@ -73,6 +73,29 @@ class App extends Component{
     });
   };
 
+  handleSignUp = (data) => {
+    fetch('http://localhost:8000/users/user_list/', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(json => {
+      if(json.token){
+        localStorage.setItem('token', json.token)
+        this.setState({
+          logged_in: true,
+          display_form: '',
+          username: json.username
+        });
+      }else{
+        alert('Username already exists');
+      }
+    });
+  };
+
   render(){
     let form;
     switch(this.state.display_form){
@@ -86,7 +109,9 @@ class App extends Component{
 
       case 'signup':
         form = (
-          <SignUpForm/>
+          <SignUpForm
+            handleSignUp={this.handleSignUp}
+          />
         );
         break;
 

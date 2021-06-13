@@ -9,6 +9,14 @@ class SignUpForm extends Component{
                 password: ""
             }
         };
+        
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event){
+        const Data = this.state.data;
+        Data[event.target.name] = event.target.value;
+        this.setState({ data: Data });
     }
 
     render(){
@@ -28,6 +36,7 @@ class SignUpForm extends Component{
                         name="username"
                         value={this.state.data.username}
                         placeholder="Choose a username"
+                        onChange={this.handleChange}
                         className="w3-input w3-border w3-round w3-margin-bottom"
                     />
                     <input
@@ -35,10 +44,13 @@ class SignUpForm extends Component{
                         name="password"
                         value={this.state.data.password}
                         placeholder="Type a password"
+                        onChange={this.handleChange}
+                        autoComplete="false"
                         className="w3-input w3-border w3-round w3-margin-bottom"
                     />
                     <button
                         type="button"
+                        onClick={() => this.props.handleSignUp(this.state.data)}
                         className="w3-button w3-blue w3-round"
                     >
                         Sign Up

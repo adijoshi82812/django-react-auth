@@ -44,6 +44,7 @@ class LoginForm extends Component{
                         value={this.state.credentials.password}
                         placeholder="Enter your password"
                         onChange={this.handleChange}
+                        autoComplete="false"
                         className="w3-input w3-border w3-margin-bottom w3-round"
                     />
                     <button
