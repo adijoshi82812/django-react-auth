@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Nav from './components/Nav';
 import LoginForm from './components/LoginForm';
+import SignUpForm from './components/SignUpForm';
 
 class App extends Component{
   constructor(){
@@ -66,6 +67,12 @@ class App extends Component{
     });
   };
 
+  handleFormDisplay = (form) => {
+    this.setState({
+      display_form: form
+    });
+  };
+
   render(){
     let form;
     switch(this.state.display_form){
@@ -74,6 +81,12 @@ class App extends Component{
           <LoginForm
             handleLogin={this.handleLogin}
           />
+        );
+        break;
+
+      case 'signup':
+        form = (
+          <SignUpForm/>
         );
         break;
 
@@ -87,6 +100,7 @@ class App extends Component{
         <Nav
           logged_in={this.state.logged_in}
           handleLogout={this.handleLogout}
+          handleFormDisplay={this.handleFormDisplay}
         />
         {form}
         {this.state.logged_in ? "Welcome " + this.state.username : ""}
