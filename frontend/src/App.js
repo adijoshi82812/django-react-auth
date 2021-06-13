@@ -8,9 +8,30 @@ class App extends Component{
     super();
     this.state = {
       logged_in: localStorage.getItem('token') ? true : false,
-      display_form: "login",
+      display_form: localStorage.getItem('token') ? "" : "login",
       username: "",
     };
+  }
+
+  componentDidMount(){
+    if(this.state.logged_in){
+      fetch('http://localhost:8000/users/current_user/', {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+      .then(res => res.json())
+      .then(json => {
+        if(json.username){
+          this.setState({
+            display_form: '',
+            username: json.username,
+          });
+        }else{
+          localStorage.removeItem('token');
+        }
+      });
+    }
   }
 
   handleLogin = (cred) => {
@@ -58,7 +79,7 @@ class App extends Component{
           logged_in={this.state.logged_in}
         />
         {form}
-        {this.state.logged_in ? "Logged In" : ""}
+        {this.state.logged_in ? "Welcome " + this.state.username : ""}
       </div>
     );
   }
