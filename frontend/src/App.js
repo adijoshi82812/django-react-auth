@@ -8,8 +8,32 @@ class App extends Component{
     super();
     this.state = {
       logged_in: localStorage.getItem('token') ? true : false,
-      display_form: 'login',
+      display_form: "login",
+      username: "",
     };
+  }
+
+  handleLogin = (cred) => {
+    fetch('http://localhost:8000/auth-token/', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cred)
+    })
+    .then(res => res.json())
+    .then(json => {
+      if(json.token){
+        localStorage.setItem('token', json.token);
+        this.setState({
+          logged_in: true,
+          display_form: '',
+          username: json.user.username
+        });
+      }else{
+        alert("Wrong Credentials");
+      }
+    });
   }
 
   render(){
@@ -17,7 +41,9 @@ class App extends Component{
     switch(this.state.display_form){
       case 'login':
         form = (
-          <LoginForm/>
+          <LoginForm
+            handleLogin={this.handleLogin}
+          />
         );
         break;
 
@@ -25,12 +51,14 @@ class App extends Component{
         form = null;
         break;
     }
+
     return(
       <div>
         <Nav
           logged_in={this.state.logged_in}
         />
         {form}
+        {this.state.logged_in ? "Logged In" : ""}
       </div>
     );
   }
