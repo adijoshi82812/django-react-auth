@@ -57,6 +57,15 @@ class App extends Component{
     });
   }
 
+  handleLogout = () => {
+    localStorage.removeItem('token');
+    this.setState({
+      logged_in: false,
+      display_form: 'login',
+      username: '',
+    });
+  };
+
   render(){
     let form;
     switch(this.state.display_form){
@@ -77,6 +86,7 @@ class App extends Component{
       <div>
         <Nav
           logged_in={this.state.logged_in}
+          handleLogout={this.handleLogout}
         />
         {form}
         {this.state.logged_in ? "Welcome " + this.state.username : ""}
