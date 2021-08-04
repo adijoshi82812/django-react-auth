@@ -36,10 +36,15 @@ Create python virtual environment
    python3 -m venv backend-env
 ```
 
+Activate the virtual environment
+```bash
+   source backend-env/bin/activate
+```
+
 Install requirements.txt
 
 ```bash
-   pip install -m requirements.txt
+   pip install -r requirements.txt
 ```
 
 Start the django development server
